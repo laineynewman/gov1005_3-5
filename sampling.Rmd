@@ -15,7 +15,7 @@ library(janitor)
 ```
 
 
-```{r}
+```{r echo=FALSE}
 
 sheets_deauth()
 
@@ -35,12 +35,24 @@ sample_urn <- urn %>%
   summarize(red_sum = sum(color == "red")) %>%
   mutate(perc_red = red_sum/25)
 
-# shovel <- function(){
-#   rep(sample_urn, 50)
-# }
 
 sample_urn %>%
   ggplot(aes(perc_red)) + geom_histogram()
+
+use_shovel <- function(urn) {
+  urn %>%
+  rep_sample_n(size = 25, reps = 51) %>%
+  group_by(replicate) %>%
+  summarize(red_sum = sum(color == "red")) %>%
+  mutate(perc_red = red_sum/25)
+}
+
+shovel_results <- tibble(ball_ID = 1:3,
+                         results = map(ball_ID, ~ use_shovel(urn)))
 ```
 
+```{r}
+shovel_results[[2]][[2]] %>%
+  ggplot(aes(perc_red)) + geom_histogram()
+```
 
