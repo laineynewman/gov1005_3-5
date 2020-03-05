@@ -17,6 +17,8 @@ library(janitor)
 
 ```{r}
 
+sheets_deauth()
+
 sheet <- read_sheet("14HmwN2cEVAJHupuehCuLdwG9BXtR3COrxDgaaylLhkA") %>%
   clean_names() %>%
   mutate(perc_red = red / (red + white))
@@ -27,6 +29,18 @@ ggplot(sheet, aes(x = perc_red)) +
 urn <- tibble(bead_ID = 1:10000, 
               color = c(rep("red", 2000), rep("white", 8000)))
 
+sample_urn <- urn %>%
+  rep_sample_n(size = 25, reps = 51) %>%
+  group_by(replicate) %>%
+  summarize(red_sum = sum(color == "red")) %>%
+  mutate(perc_red = red_sum/25)
+
+# shovel <- function(){
+#   rep(sample_urn, 50)
+# }
+
+sample_urn %>%
+  ggplot(aes(perc_red)) + geom_histogram()
 ```
 
 
