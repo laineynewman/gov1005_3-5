@@ -1,0 +1,26 @@
+---
+title: "Class 3/5/2020"
+author: "Lainey Newman"
+date: "3/5/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(googlesheets4)
+library(infer)
+library(tidyverse)
+library(janitor)
+```
+
+
+```{r}
+
+sheet <- read_sheet("14HmwN2cEVAJHupuehCuLdwG9BXtR3COrxDgaaylLhkA") %>%
+  clean_names()
+  
+ggplot(sheet, aes(x = red)) +
+  geom_histogram()
+
+```
