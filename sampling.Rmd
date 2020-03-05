@@ -18,9 +18,15 @@ library(janitor)
 ```{r}
 
 sheet <- read_sheet("14HmwN2cEVAJHupuehCuLdwG9BXtR3COrxDgaaylLhkA") %>%
-  clean_names()
+  clean_names() %>%
+  mutate(perc_red = red / (red + white))
   
-ggplot(sheet, aes(x = red)) +
+ggplot(sheet, aes(x = perc_red)) +
   geom_histogram()
 
+urn <- tibble(bead_ID = 1:10000, 
+              color = c(rep("red", 2000), rep("white", 8000)))
+
 ```
+
+
